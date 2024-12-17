@@ -1,0 +1,19 @@
+services:
+  cache:
+    image: redis:alpine
+    ports:
+      - "63791:6379"
+    networks:
+      - elsa-network
+  db:
+    image: postgres:alpine
+    ports:
+      - "54321:5432"
+    networks:
+      - elsa-network 
+    environment:
+      POSTGRES_PASSWORD: password
+
+networks:
+  elsa-network:
+    driver: bridge
