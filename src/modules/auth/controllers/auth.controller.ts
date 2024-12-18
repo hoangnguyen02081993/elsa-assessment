@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import {
   LoginRequest,
   RefreshTokenRequest,
@@ -18,6 +18,7 @@ export class AuthController {
 
   @Post('/login')
   @NotRequireAuthentication()
+  @HttpCode(HttpStatus.OK)  
   async loginByProvider(
     @Body() data: LoginRequest,
   ): Promise<TokenResponse> {
@@ -30,6 +31,7 @@ export class AuthController {
 
   @Post('/refresh-token')
   @NotRequireAuthentication()
+  @HttpCode(HttpStatus.OK)  
   async refreshToken(
     @Body() data: RefreshTokenRequest,
   ): Promise<TokenResponse> {

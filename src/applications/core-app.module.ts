@@ -18,6 +18,7 @@ import {
 import { RequestContextMiddleware } from '../middlewares';
 import { ConfigModule } from '@nestjs/config';
 import configuration from '../config/configuration';
+import { HttpModule } from 'src/modules/http';
 
 @Module({
   imports: [
@@ -27,9 +28,8 @@ import configuration from '../config/configuration';
       load: [configuration],
       isGlobal: true,
     }),
+    HttpModule,
   ],
-
-  controllers: [],
   providers: [
     {
       provide: APP_INTERCEPTOR,

@@ -141,7 +141,7 @@ export abstract class HttpClientService {
         params: this.request?.query,
         baseURL: this.context?.baseURL,
       })
-      .catch((ex) => ex.response);
+      .catch((ex) => ex);
     return this.handleResponse(response);
   }
 }

@@ -64,4 +64,4 @@ COPY --chown=node:node --from=build /usr/src/app/dist ./dist
 EXPOSE $PORT
 
 # Run the application.
-CMD ["node","dist/src/main.js", ">", "/dev/stdout"]
+CMD ["node","dist/main.js", ">", "/dev/stdout"]

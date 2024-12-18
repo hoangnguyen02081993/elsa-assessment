@@ -3,10 +3,9 @@ import { CoreAppModule } from './core-app.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Environment, EnvironmentAPIGatewayVariables, EnvironmentAuthServiceVariables } from '../config/validation';
 import configuration from '../config/configuration';
-import { APP_GUARD } from '@nestjs/core';
-import { AuthGuard } from 'src/decorators/auth.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthModule } from 'src/modules/auth';
+import { APIGatewayModule } from 'src/modules/api-gateway/api-gateway.module';
 
 @Module({
   imports: [
@@ -19,6 +18,12 @@ import { AuthModule } from 'src/modules/auth';
         appName: 'API_GATEWAY',
       },
     }),
+    CoreAppModule.forRootAsync({
+      useFactory: (configSerivce: ConfigService) => ({
+        env: configSerivce.get<Environment>('env'),
+      }),
+      inject: [ConfigService],
+    }),
     JwtModule.registerAsync({
       global: true,
       useFactory: (configService: ConfigService) => {
@@ -29,21 +34,10 @@ import { AuthModule } from 'src/modules/auth';
       },
       inject: [ConfigService],
     }),
-    CoreAppModule.forRootAsync({
-      useFactory: (configSerivce: ConfigService) => ({
-        env: configSerivce.get<Environment>('env'),
-      }),
-      inject: [ConfigService],
-    }),
-  ],
-  providers: [
-    {
-      provide: APP_GUARD,
-      useClass: AuthGuard,
-    },
+    APIGatewayModule,
   ],
 })
-export class GameApiAppModule {}
+export class APIGatewayAppModule {}
 
 @Module({
   imports: [
@@ -56,6 +50,12 @@ export class GameApiAppModule {}
         appName: 'AUTH_SERVICE',
       },
     }),
+    CoreAppModule.forRootAsync({
+      useFactory: (configSerivce: ConfigService) => ({
+        env: configSerivce.get<Environment>('env'),
+      }),
+      inject: [ConfigService],
+    }),
     JwtModule.registerAsync({
       global: true,
       useFactory: (configService: ConfigService) => {
@@ -66,13 +66,7 @@ export class GameApiAppModule {}
       },
       inject: [ConfigService],
     }),
-    CoreAppModule.forRootAsync({
-      useFactory: (configSerivce: ConfigService) => ({
-        env: configSerivce.get<Environment>('env'),
-      }),
-      inject: [ConfigService],
-    }),
     AuthModule,
   ],
 })
-export class AuthServiceAppModule {}
+export class AuthServiceAppModule { }

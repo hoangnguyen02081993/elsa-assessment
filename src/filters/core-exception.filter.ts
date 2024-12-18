@@ -89,6 +89,7 @@ export class CoreExceptionFilter implements ExceptionFilter {
       case exception instanceof BusinessException: {
         errorCode = exception.errorCode;
         errorMessage = exception.errorMessage;
+        invalidParams = exception.invalidParams;
         break;
       }
       case exception instanceof BadRequestException: {

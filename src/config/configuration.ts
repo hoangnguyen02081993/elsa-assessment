@@ -28,5 +28,7 @@ export default (): Configuration => {
     jwtAccesstokenPublicKey: process.env.JWT_ACCESS_TOKEN_PUBLIC_KEY,
     jwtRefreshtokenPrivateKey: process.env.JWT_REFRESH_TOKEN_PRIVATE_KEY,
     jwtRefreshtokenPublicKey: process.env.JWT_REFRESH_TOKEN_PUBLIC_KEY,
+
+    authServiceUrl: process.env.AUTH_SERVICE_URL,
   };
 };

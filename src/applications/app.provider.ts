@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { AuthServiceAppModule, GameApiAppModule } from './app.module';
+import { AuthServiceAppModule, APIGatewayAppModule } from './app.module';
 
 export type AppName = 'API_SERVICE' | 'CONSUMER_SERVICE' | 'SOCKET_MANAGER_SERVICE' | 'API_GATEWAY' | 'AUTH_SERVICE';
 
@@ -9,9 +9,9 @@ export class AppProvider {
     const appName: AppName = (process.env.APP_NAME || 'API_GATEWAY') as AppName;
     return (
       {
-        GAME_API: GameApiAppModule,
+        GAME_API: APIGatewayAppModule,
         AUTH_SERVICE: AuthServiceAppModule,
-      }[appName] || GameApiAppModule
+      }[appName] || APIGatewayAppModule
     );
   }
   public getAppName(): AppName {

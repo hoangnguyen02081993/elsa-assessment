@@ -24,4 +24,7 @@ export interface Configuration {
   jwtAccesstokenPublicKey?: string;
   jwtRefreshtokenPrivateKey?: string;
   jwtRefreshtokenPublicKey?: string;
+
+  // For apigateways
+  authServiceUrl: string;
 }

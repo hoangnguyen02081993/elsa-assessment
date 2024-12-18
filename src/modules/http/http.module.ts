@@ -1,9 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import {
   InternalHttpClientService,
   SINGLE_INTERNAL_HTTP_CLIENT,
 } from './services';
 
+@Global()
 @Module({
   imports: [],
   controllers: [],

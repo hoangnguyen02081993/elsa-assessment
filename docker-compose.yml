@@ -13,6 +13,46 @@ services:
       - elsa-network 
     environment:
       POSTGRES_PASSWORD: password
+  auth-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.no-db
+    networks:
+      - elsa-network
+    ports:
+      - "3000:3000"
+    environment:
+      - APP_NAME=AUTH_SERVICE
+      - ENVIRONMENT=local
+      - TZ=UTC
+      - PORT=3000
+      - LOG_LEVEL=debug
+      - HTTP_REQUEST_TIMEOUT=10000
+      - IGNORE_AUTH_GUARD=true
+      - JWT_ACCESS_TOKEN_PRIVATE_KEY=nL+jiC3uyZt4aW9AnPaltg==
+      - JWT_ACCESS_TOKEN_PUBLIC_KEY=nL+jiC3uyZt4aW9AnPaltg==
+      - JWT_REFRESH_TOKEN_PRIVATE_KEY=64dGrDHJ4u31xJoQrtSBWw==
+      - JWT_REFRESH_TOKEN_PUBLIC_KEY=64dGrDHJ4u31xJoQrtSBWw==
+  api-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile.no-db
+    networks:
+      - elsa-network
+    ports:
+      - "4000:3000"
+    environment:
+      - APP_NAME=API_GATEWAY
+      - ENVIRONMENT=local
+      - TZ=UTC
+      - PORT=3000
+      - LOG_LEVEL=debug
+      - HTTP_REQUEST_TIMEOUT=10000
+      - IGNORE_AUTH_GUARD=false
+      - JWT_ACCESS_TOKEN_PUBLIC_KEY=nL+jiC3uyZt4aW9AnPaltg==
+      - AUTH_SERVICE_URL=http://auth-service:3000
+    depends_on:
+      - auth-service
 
 networks:
   elsa-network:

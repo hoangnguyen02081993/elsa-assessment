@@ -33,6 +33,9 @@ export class EnvironmentAPIGatewayVariables {
   @IsOptional()
   JWT_ACCESS_TOKEN_PUBLIC_KEY: string;
 
+  @IsString()
+  AUTH_SERVICE_URL: string;
+
   validate(config: Record<string, unknown>, options: Record<string, unknown>) {
     if (options.appName !== (process.env.APP_NAME || 'API_GATEWAY')) {
       return {};

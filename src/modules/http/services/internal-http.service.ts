@@ -54,6 +54,7 @@ export class InternalHttpClientService extends HttpClientService {
         errorCode: errorResData?.title ?? res.code,
         status: res?.response?.status ?? res?.status,
         errorMessage: errorResData?.detail,
+        invalidParams: errorResData?.invalidParams,
       });
     } else if (res.status >= 200 && res.status < 300) {
       const successResData = res.data as SuccessResponse<T>;
