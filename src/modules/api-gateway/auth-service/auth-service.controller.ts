@@ -1,7 +1,7 @@
 import { Controller, Post } from '@nestjs/common';
 import { NotRequireAuthentication } from 'src/decorators';
 import { InternalHttpClientService } from 'src/modules/http';
-import { BaseAPIGatewayController } from './api-gateway.base.controller';
+import { BaseAPIGatewayController } from '../base/api-gateway.base.controller';
 import { ConfigService } from '@nestjs/config';
 
 @Controller({

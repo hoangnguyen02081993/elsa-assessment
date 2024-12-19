@@ -12,26 +12,22 @@ import { AuthService } from '../services/auth.service';
   version: ['1.0'],
 })
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post('/login')
   @NotRequireAuthentication()
-  @HttpCode(HttpStatus.OK)  
-  async loginByProvider(
-    @Body() data: LoginRequest,
-  ): Promise<TokenResponse> {
+  @HttpCode(HttpStatus.OK)
+  async loginByProvider(@Body() data: LoginRequest): Promise<TokenResponse> {
     const profile: Record<string, string> = {
       userId: data.username, // mock user id,
       username: data.username,
-    }
+    };
     return this.authService.generateTokens(profile.userId, profile);
   }
 
   @Post('/refresh-token')
   @NotRequireAuthentication()
-  @HttpCode(HttpStatus.OK)  
+  @HttpCode(HttpStatus.OK)
   async refreshToken(
     @Body() data: RefreshTokenRequest,
   ): Promise<TokenResponse> {

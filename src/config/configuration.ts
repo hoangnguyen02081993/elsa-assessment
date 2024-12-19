@@ -1,10 +1,20 @@
 import { Configuration, LogLevel } from './configuration.interface';
 import { Environment } from './validation';
 
+const parseEnvInt = (value: string | undefined, fallback: number): number =>
+  parseInt(value ?? fallback.toString());
+
 export default (): Configuration => {
-  process.env.DATABASE_URL = `postgresql://${encodeURIComponent(process.env.POSTGRESQL_USER)}:${encodeURIComponent(process.env.POSTGRESQL_PASSWORD)}@${process.env.POSTGRESQL_HOST}:${process.env.POSTGRESQL_PORT}/${process.env.POSTGRESQL_DB}`;
-  const parseEnvInt = (value: string | undefined, fallback: number): number =>
-    parseInt(value ?? fallback.toString());
+  if (
+    process.env.POSTGRESQL_USER &&
+    process.env.POSTGRESQL_PASSWORD &&
+    process.env.POSTGRESQL_HOST &&
+    process.env.POSTGRESQL_PORT &&
+    process.env.POSTGRESQL_DB
+  ) {
+    process.env.DATABASE_URL = `postgresql://${encodeURIComponent(process.env.POSTGRESQL_USER)}:${encodeURIComponent(process.env.POSTGRESQL_PASSWORD)}@${process.env.POSTGRESQL_HOST}:${process.env.POSTGRESQL_PORT}/${process.env.POSTGRESQL_DB}`;
+  }
+
   return {
     appName: process.env.APP_NAME,
     env: process.env.ENVIRONMENT as Environment,
@@ -30,5 +40,7 @@ export default (): Configuration => {
     jwtRefreshtokenPublicKey: process.env.JWT_REFRESH_TOKEN_PUBLIC_KEY,
 
     authServiceUrl: process.env.AUTH_SERVICE_URL,
+    quizAPIServiceUrl: process.env.QUIZ_API_SERVICE_URL,
+    socketManagerServiceUrl: process.env.SOCKET_MANAGER_SERVICE_URL,
   };
 };

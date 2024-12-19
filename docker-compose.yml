@@ -8,19 +8,32 @@ services:
   db:
     image: postgres:alpine
     ports:
-      - "54321:5432"
+      - "64321:5432"
     networks:
       - elsa-network 
     environment:
+      POSTGRES_USER: root
       POSTGRES_PASSWORD: password
+  quiz-db-migration-and-seed:
+    build:
+      context: .
+      dockerfile: Dockerfile.migration-and-seed
+    networks:
+      - elsa-network
+    environment:
+      - POSTGRESQL_USER=root
+      - POSTGRESQL_PASSWORD=password
+      - POSTGRESQL_HOST=db
+      - POSTGRESQL_PORT=5432
+      - POSTGRESQL_DB=quiz_db
   auth-service:
     build:
       context: .
-      dockerfile: Dockerfile.no-db
+      dockerfile: Dockerfile
     networks:
       - elsa-network
     ports:
-      - "3000:3000"
+      - "3001:3000"
     environment:
       - APP_NAME=AUTH_SERVICE
       - ENVIRONMENT=local
@@ -33,10 +46,81 @@ services:
       - JWT_ACCESS_TOKEN_PUBLIC_KEY=nL+jiC3uyZt4aW9AnPaltg==
       - JWT_REFRESH_TOKEN_PRIVATE_KEY=64dGrDHJ4u31xJoQrtSBWw==
       - JWT_REFRESH_TOKEN_PUBLIC_KEY=64dGrDHJ4u31xJoQrtSBWw==
+  quiz-api-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - elsa-network
+    ports:
+      - "3002:3000"
+    environment:
+      - APP_NAME=QUIZ_API_SERVICE
+      - ENVIRONMENT=local
+      - TZ=UTC
+      - PORT=3000
+      - LOG_LEVEL=debug
+      - HTTP_REQUEST_TIMEOUT=10000
+      - IGNORE_AUTH_GUARD=true
+      - POSTGRESQL_USER=root
+      - POSTGRESQL_PASSWORD=password
+      - POSTGRESQL_HOST=db
+      - POSTGRESQL_PORT=5432
+      - POSTGRESQL_DB=quiz_db
+      - REDIS_HOST=cache
+      - REDIS_PORT=6379
+      - REDIS_MODE=client
+    depends_on:
+      cache: 
+        condition: service_started
+      quiz-db-migration-and-seed: 
+        condition: service_completed_successfully
+  quiz-consumer-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - elsa-network
+    ports:
+      - "3003:3000"
+    environment:
+      - APP_NAME=QUIZ_CONSUMER_SERVICE
+      - ENVIRONMENT=local
+      - TZ=UTC
+      - PORT=3000
+      - LOG_LEVEL=debug
+      - HTTP_REQUEST_TIMEOUT=10000
+      - REDIS_HOST=cache
+      - REDIS_PORT=6379
+      - REDIS_MODE=client
+      - SOCKET_MANAGER_SERVICE_URL=http://socket-manager-service:3000
+    depends_on:
+      - cache
+  socket-manager-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - elsa-network
+    ports:
+      - "3004:3000"
+    environment:
+      - APP_NAME=SOCKET_MANAGER_SERVICE
+      - ENVIRONMENT=local
+      - TZ=UTC
+      - PORT=3000
+      - LOG_LEVEL=debug
+      - HTTP_REQUEST_TIMEOUT=10000
+      - REDIS_HOST=cache
+      - REDIS_PORT=6379
+      - REDIS_MODE=client
+      - JWT_ACCESS_TOKEN_PUBLIC_KEY=nL+jiC3uyZt4aW9AnPaltg==
+    depends_on:
+      - cache
   api-gateway:
     build:
       context: .
-      dockerfile: Dockerfile.no-db
+      dockerfile: Dockerfile
     networks:
       - elsa-network
     ports:
@@ -51,8 +135,10 @@ services:
       - IGNORE_AUTH_GUARD=false
       - JWT_ACCESS_TOKEN_PUBLIC_KEY=nL+jiC3uyZt4aW9AnPaltg==
       - AUTH_SERVICE_URL=http://auth-service:3000
+      - QUIZ_API_SERVICE_URL=http://quiz-api-service:3000
     depends_on:
       - auth-service
+      - quiz-api-service
 
 networks:
   elsa-network:

@@ -8,13 +8,74 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator json {
+  provider = "prisma-json-types-generator"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model Example {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+model Quizzes {
+  id               String             @id @default(cuid()) @map(name: "id")
+  code             String             @unique @map(name: "code")
+  name             String?            @map(name: "name")
+  createdAt        DateTime           @default(now()) @map(name: "created_at")
+  updatedAt        DateTime           @updatedAt @map(name: "updated_at")
+  quizQuestions    QuizQuestions[]
+  userQuizSessions UserQuizSessions[]
+
+  @@map("quizzes")
+}
+
+model QuizQuestions {
+  id                  String                @id @default(cuid()) @map(name: "id")
+  quizId              String                @map(name: "quiz_id")
+  question            String                @map(name: "question")
+  quiz                Quizzes               @relation(fields: [quizId], references: [id])
+  rewardPoints        Int                   @map(name: "earned_points")
+  createdAt           DateTime              @default(now()) @map(name: "created_at")
+  updatedAt           DateTime              @updatedAt @map(name: "updated_at")
+  quizQuestionOptions QuizQuestionOptions[]
+
+  @@map("quiz_questions")
+}
+
+model QuizQuestionOptions {
+  id             String        @id @default(cuid()) @map(name: "id")
+  quizQuestionId String        @map(name: "quiz_question_id")
+  option         String        @map(name: "option")
+  isCorrect      Boolean       @map(name: "is_correct")
+  createdAt      DateTime      @default(now()) @map(name: "created_at")
+  updatedAt      DateTime      @updatedAt @map(name: "updated_at")
+  quizQuestion   QuizQuestions @relation(fields: [quizQuestionId], references: [id])
+
+  @@map("quiz_question_options")
+}
+
+model UserQuizSessions {
+  id     String @id @default(cuid()) @map(name: "id")
+  userId String @map(name: "user_id")
+  quizId String @map(name: "quiz_id")
+  score  Int    @map(name: "score")
+
+  /// [QuizSessionData]
+  data      Json     @default("{}") @map(name: "data")
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  quiz      Quizzes  @relation(fields: [quizId], references: [id])
+
+  @@unique([userId, quizId])
+  @@map("user_quiz_sessions")
+}
+
+model UserScores {
+  userId    String   @id @map(name: "user_id")
+  score     Int      @map(name: "score")
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+  @@index([score(sort: Desc), updatedAt(sort: Desc)])
+  @@map("user_scores")
 }

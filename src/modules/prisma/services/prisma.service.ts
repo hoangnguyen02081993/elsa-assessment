@@ -60,4 +60,11 @@ export class PrismaService
   }
 }
 
-export default new PrismaService();
+let prismaService: PrismaService | null;
+
+// This is because we run some services that not require database connection
+if (process.env.DATABASE_URL) {
+  prismaService = new PrismaService();
+}
+
+export default prismaService;

@@ -1,7 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { AuthServiceAppModule, APIGatewayAppModule } from './app.module';
+import {
+  AuthServiceAppModule,
+  APIGatewayAppModule,
+  QuizAPIAppModule,
+  SocketManagerAppModule,
+  QuizConsumerAppModule,
+} from './app.module';
 
-export type AppName = 'API_SERVICE' | 'CONSUMER_SERVICE' | 'SOCKET_MANAGER_SERVICE' | 'API_GATEWAY' | 'AUTH_SERVICE';
+export type AppName =
+  | 'QUIZ_API_SERVICE'
+  | 'QUIZ_CONSUMER_SERVICE'
+  | 'SOCKET_MANAGER_SERVICE'
+  | 'API_GATEWAY'
+  | 'AUTH_SERVICE';
 
 @Injectable()
 export class AppProvider {
@@ -11,6 +22,9 @@ export class AppProvider {
       {
         GAME_API: APIGatewayAppModule,
         AUTH_SERVICE: AuthServiceAppModule,
+        QUIZ_API_SERVICE: QuizAPIAppModule,
+        QUIZ_CONSUMER_SERVICE: QuizConsumerAppModule,
+        SOCKET_MANAGER_SERVICE: SocketManagerAppModule,
       }[appName] || APIGatewayAppModule
     );
   }

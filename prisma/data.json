@@ -1,0 +1,236 @@
+{
+    "quizzes": [
+        {
+            "code": "quiz1",
+            "name": "The 1st quiz",
+            "questions": [
+                {
+                    "question": "Click the best synonym for <b>fragrance</b>",
+                    "rewardPoints": 1,
+                    "options": [
+                        {
+                            "option": "unsual flavor",
+                            "isCorrect": false
+                        },
+                        {
+                            "option": "sweet smell",
+                            "isCorrect": true
+                        },
+                        {
+                            "option": "small cake",
+                            "isCorrect": false
+                        },
+                        {
+                            "option": "offersive word",
+                            "isCorrect": false
+                        }
+                    ]
+                },
+                {
+                    "question": "Click the best synonym for <b>possess</b>",
+                    "rewardPoints": 2,
+                    "options": [
+                        {
+                            "option": "bother",
+                            "isCorrect": false
+                        },
+                        {
+                            "option": "purchase",
+                            "isCorrect": false
+                        },
+                        {
+                            "option": "encouter",
+                            "isCorrect": false
+                        },
+                        {
+                            "option": "own",
+                            "isCorrect": true
+                        }
+                    ]
+                },
+                {
+                    "question": "Click the best synonym for <b>slang</b>",
+                    "rewardPoints": 1,
+                    "options": [
+                        {
+                            "option": "heavy load",
+                            "isCorrect": false
+                        },
+                        {
+                            "option": "informal language",
+                            "isCorrect": true
+                        },
+                        {
+                            "option": "knife wound",
+                            "isCorrect": false
+                        },
+                        {
+                            "option": "swollen throat",
+                            "isCorrect": false
+                        }
+                    ]
+                },
+                {
+                    "question": "Click the best synonym for <b>strategy</b>",
+                    "rewardPoints": 3,
+                    "options": [
+                        {
+                            "option": "project",
+                            "isCorrect": false
+                        },
+                        {
+                            "option": "intention",
+                            "isCorrect": false
+                        },
+                        {
+                            "option": "plan",
+                            "isCorrect": true
+                        },
+                        {
+                            "option": "business card",
+                            "isCorrect": false
+                        }
+                    ]
+                },
+                {
+                    "question": "Click the best synonym for <b>due to</b>",
+                    "rewardPoints": 1,
+                    "options": [
+                        {
+                            "option": "despite",
+                            "isCorrect": false
+                        },
+                        {
+                            "option": "because of",
+                            "isCorrect": true
+                        },
+                        {
+                            "option": "except for",
+                            "isCorrect": false
+                        },
+                        {
+                            "option": "instead of",
+                            "isCorrect": false
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "quiz2",
+            "name": "The 2nd quiz",
+            "questions": [
+                {
+                    "question": "Click the best synonym for <b>inconspicuous</b>",
+                    "rewardPoints": 2,
+                    "options": [
+                        {
+                            "option": "not hidden",
+                            "isCorrect": false
+                        },
+                        {
+                            "option": "incomplete",
+                            "isCorrect": false
+                        },
+                        {
+                            "option": "unconscious",
+                            "isCorrect": false
+                        },
+                        {
+                            "option": "not noticeabled",
+                            "isCorrect": true
+                        }
+                    ]
+                },
+                {
+                    "question": "Click the best synonym for <b>drama</b>",
+                    "rewardPoints": 4,
+                    "options": [
+                        {
+                            "option": "business",
+                            "isCorrect": false
+                        },
+                        {
+                            "option": "argument",
+                            "isCorrect": false
+                        },
+                        {
+                            "option": "series",
+                            "isCorrect": false
+                        },
+                        {
+                            "option": "threater",
+                            "isCorrect": true
+                        }
+                    ]
+                },
+                {
+                    "question": "Click the best synonym for <b>mist</b>",
+                    "rewardPoints": 2,
+                    "options": [
+                        {
+                            "option": "fog",
+                            "isCorrect": true
+                        },
+                        {
+                            "option": "storm",
+                            "isCorrect": false
+                        },
+                        {
+                            "option": "drop",
+                            "isCorrect": false
+                        },
+                        {
+                            "option": "dust",
+                            "isCorrect": false
+                        }
+                    ]
+                },
+                {
+                    "question": "Click the best synonym for <b>consider</b>",
+                    "rewardPoints": 3,
+                    "options": [
+                        {
+                            "option": "think about",
+                            "isCorrect": true
+                        },
+                        {
+                            "option": "see",
+                            "isCorrect": false
+                        },
+                        {
+                            "option": "try on",
+                            "isCorrect": false
+                        },
+                        {
+                            "option": "describe simply",
+                            "isCorrect": false
+                        }
+                    ]
+                },
+                {
+                    "question": "Click the best synonym for <b>set up</b>",
+                    "rewardPoints": 1,
+                    "options": [
+                        {
+                            "option": "move higher",
+                            "isCorrect": false
+                        },
+                        {
+                            "option": "compete",
+                            "isCorrect": false
+                        },
+                        {
+                            "option": "arrange",
+                            "isCorrect": true
+                        },
+                        {
+                            "option": "get dressed",
+                            "isCorrect": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

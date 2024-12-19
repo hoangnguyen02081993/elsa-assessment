@@ -29,12 +29,16 @@ interface AuthPayload {
 export class AuthGuard implements CanActivate {
   private readonly logger: Logger = new Logger(AuthGuard.name);
   private readonly ignoreAuthGuard: boolean;
+  private readonly jwtAccesstokenPublicKey: string;
   constructor(
     private reflector: Reflector,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {
     this.ignoreAuthGuard = this.configService.get<boolean>('ignoreAuthGuard');
+    this.jwtAccesstokenPublicKey = this.configService.get<string>(
+      'jwtAccesstokenPublicKey',
+    );
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -60,7 +64,9 @@ export class AuthGuard implements CanActivate {
       try {
         const token = accessToken.split(' ')[1];
 
-        await this.jwtService.verifyAsync<AuthPayload>(token);
+        await this.jwtService.verifyAsync<AuthPayload>(token, {
+          publicKey: this.jwtAccesstokenPublicKey,
+        });
         return true;
       } catch (error) {
         this.logger.warn('Error verifying token', error);

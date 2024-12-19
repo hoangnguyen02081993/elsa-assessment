@@ -5,7 +5,7 @@ type ExceptionType = {
   errorMessage?: string;
   status: HttpStatus;
   data?: any;
-  invalidParams?: any
+  invalidParams?: any;
 };
 export class BusinessException {
   readonly errorCode: string;
@@ -14,7 +14,13 @@ export class BusinessException {
   readonly data?: any;
   readonly invalidParams?: any;
 
-  constructor({ errorCode, errorMessage, data = '', status, invalidParams }: ExceptionType) {
+  constructor({
+    errorCode,
+    errorMessage,
+    data = '',
+    status,
+    invalidParams,
+  }: ExceptionType) {
     this.errorCode = errorCode;
     this.errorMessage = errorMessage || 'Internal Server Error';
     this.status = status || HttpStatus.INTERNAL_SERVER_ERROR;
