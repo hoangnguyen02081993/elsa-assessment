@@ -79,6 +79,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         redirectToQuizList();
     }
 
+    initWebSocketAndCommonEvent(session);
+
     submitData.quiz = currentQuiz;
     renderQuestions(currentQuiz);
 })

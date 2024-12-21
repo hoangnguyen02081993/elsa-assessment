@@ -46,28 +46,6 @@ function informDataChanged(data) {
     document.getElementById("recent-message").innerHTML = message;
 }
 
-async function initWebSocket(session) {
-    const socket = io(baseWSUrl, {
-        extraHeaders: {
-            Authorization: `${session.token}`
-        },
-        path: '/ws'
-    });
-
-    socket.on('connect', () => {
-        console.log('Connected to server');
-    });
-
-    socket.on('disconnect', () => {
-        console.log('Disconnected from server');
-    });
-
-    socket.on('updateLeaderBoard', (data) => {
-        informDataChanged(data);
-        renderLeaderBoard(data.data);
-    });
-}
-
 function redirectToQuizList() {
     window.location.href = '/index.html';
 }
@@ -81,5 +59,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const data = await fetchLeaderBoard(session);
     renderLeaderBoard(data);
 
-    initWebSocket(session);
+    const socket = initWebSocketAndCommonEvent(session);
+    socket.on('updateLeaderBoard', (data) => {
+        informDataChanged(data);
+        renderLeaderBoard(data.data);
+    });
 })

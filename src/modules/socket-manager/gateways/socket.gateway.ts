@@ -37,7 +37,9 @@ export class SocketGateway
       socket.disconnect();
       return;
     }
+    const user = this.wsAuthGurad.getRequest(socket).user;
     this.joinDefaultRooms(socket);
+    socket.join(user.userId); // join user's room to receive self messages
     this.logger.log('a client connected');
   }
 

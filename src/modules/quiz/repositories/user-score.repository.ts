@@ -48,4 +48,12 @@ export class UserScoreRepository extends BaseRepository {
       ],
     });
   }
+
+  public async getByUserId(userId: string): Promise<UserScores> {
+    return this.client.userScores.findUnique({
+      where: {
+        userId,
+      },
+    });
+  }
 }

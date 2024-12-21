@@ -1,6 +1,6 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { EventService } from '../services/event.service';
-import { LeaderBoardEventRequest } from '../models/update-leader-board';
+import { LeaderBoardChangedDataEventRequest, LeaderBoardEventRequest } from '../models/update-leader-board';
 
 @Controller({
   path: ['/internal/api/v1.0/events'],
@@ -15,5 +15,11 @@ export class InternalEventsController {
     @Body() data: LeaderBoardEventRequest,
   ): Promise<void> {
     await this.eventSevice.executeUpdateLeaderBoard(data);
+  }
+
+  @Post('self-score')
+  @HttpCode(HttpStatus.ACCEPTED)
+  async updateSelfScore(@Body() data: LeaderBoardChangedDataEventRequest): Promise<void> {
+    await this.eventSevice.executeUpdateSelfScore(data);
   }
 }

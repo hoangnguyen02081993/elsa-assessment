@@ -41,6 +41,12 @@ export class UpdateLeaderBoardConsumer extends BaseConsumer<UpdateLeaderBoardMes
         });
       }
 
+      // Update self score for the user
+      await this.internalSocketManagerService.triggerUpdateSelfScore({
+        userId: message.userId,
+        score: message.score,
+      });
+
       this.logger.info(`handled message:- messageId:${job.id}`);
 
       // Handle async case

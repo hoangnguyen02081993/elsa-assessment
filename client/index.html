@@ -4,11 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quiz Application</title>
+  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/assets/css/style.css">
   <script src="/assets/scripts/common.js"></script>
 </head>
 <body>
   <div id="app">
+    <!-- User information -->
+    <div class="user-information">
+      <h3>Welcome <span id="user-name"></span></h3>
+      <h4>Your score: <span id="user-score"></span></h4>
+    </div>
+
     <!-- Quiz List Page -->
     <div id="quiz-list-page" class="page active">
       <h1>Quiz List</h1>

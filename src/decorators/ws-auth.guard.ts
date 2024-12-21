@@ -49,17 +49,4 @@ export class WsAuthGuard {
       return false;
     }
   }
-
-  handleRequest<TUser = any>(
-    err: any,
-    user: any,
-    info: any,
-    context: any,
-  ): TUser {
-    const socket = this.getRequest(context);
-    if (err || info) {
-      socket.disconnect();
-    }
-    return user;
-  }
 }

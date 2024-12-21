@@ -5,8 +5,10 @@ import {
   TopHighestUserModel,
   UpdateLeaderBoardRequest,
   UpdateLeaderBoardResponse,
+  UserScoreModel,
 } from '../models/user-score';
 import { UserScoreRepository } from '../repositories/user-score.repository';
+import { UserScores } from '@prisma/client';
 
 @Injectable()
 export class UserScoreService {
@@ -49,6 +51,10 @@ export class UserScoreService {
       isChanged: true,
       data: await this.getLeaderBoardFromDabase(true),
     };
+  }
+
+  public async getByUserId(userId: string): Promise<UserScores> {
+    return this.userScoreRepository.getByUserId(userId);
   }
 
   private async shouldUpdateLeaderboard(

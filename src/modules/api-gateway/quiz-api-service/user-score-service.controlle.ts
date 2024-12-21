@@ -20,4 +20,9 @@ export class UserScoreServiceController extends BaseAPIGatewayController {
   async submit() {
     return this.forward('/api/v1.0/user-scores/leaderboard', 'GET');
   }
+
+  @Get('/me')
+  async me() {
+    return this.forward('/api/v1.0/user-scores/me', 'GET');
+  }
 }

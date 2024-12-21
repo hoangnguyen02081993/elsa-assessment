@@ -57,6 +57,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         redirectToLogin();
     }
 
+    initWebSocketAndCommonEvent(session);
+
     const quizzes = await fetchQuizList(session);
     quizzes && renderQuizList(quizzes);
 })

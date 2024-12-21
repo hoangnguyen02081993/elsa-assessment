@@ -1,5 +1,10 @@
 import { IsNumber, IsString } from 'class-validator';
 
+export class UserScoreModel {
+  userId: string;
+  score: number;
+}
+
 export class TopHighestModel {
   userId: string;
   score: number;

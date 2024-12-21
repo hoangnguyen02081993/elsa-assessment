@@ -5,7 +5,7 @@ import {
 } from 'src/modules/http';
 
 import { ConfigService } from '@nestjs/config';
-import { LeaderBoardEventRequest } from '../models/update-leader-board';
+import { LeaderBoardChangedDataEventRequest, LeaderBoardEventRequest } from '../models/update-leader-board';
 
 @Injectable()
 export class InternalSocketManagerService {
@@ -23,6 +23,13 @@ export class InternalSocketManagerService {
   async triggerLeaderBoard(data: LeaderBoardEventRequest): Promise<void> {
     await this.httpService.post(
       `${this.socketManagerServiceUrl}/internal/api/v1.0/events/leaderboard`,
+      data,
+    );
+  }
+
+  async triggerUpdateSelfScore(data: LeaderBoardChangedDataEventRequest): Promise<void> {
+    await this.httpService.post(
+      `${this.socketManagerServiceUrl}/internal/api/v1.0/events/self-score`,
       data,
     );
   }
