@@ -25,6 +25,12 @@ export interface Configuration {
   jwtRefreshtokenPrivateKey?: string;
   jwtRefreshtokenPublicKey?: string;
 
-  // For apigateways
+  // For apigateway
   authServiceUrl: string;
+  quizAPIServiceUrl: string;
+  socketManagerServiceUrl: string;
+
+  // For quiz api
+  jwtQuizSessionPrivateKey?: string;
+  jwtQuizSessionPublicKey?: string;
 }

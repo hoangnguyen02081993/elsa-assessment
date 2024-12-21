@@ -1,6 +1,5 @@
 import { IsString } from 'class-validator';
 
-
 export enum AuthType {
   Bearer = 'Bearer',
 }

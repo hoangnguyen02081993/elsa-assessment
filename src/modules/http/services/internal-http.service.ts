@@ -35,9 +35,8 @@ export class InternalHttpClientService extends HttpClientService {
     if (!axiosHeaders.has(CID_HEADER_KEY))
       axiosHeaders.set(CID_HEADER_KEY, this.request?.context?.cid);
 
-    if (!axiosHeaders.has(AUTHORIZATION))
-      this.request?.context?.accesstoken &&
-        axiosHeaders.set(AUTHORIZATION, this.request?.context?.accesstoken);
+    if (!axiosHeaders.has(AUTHORIZATION) && this.request?.context?.accesstoken)
+      axiosHeaders.set(AUTHORIZATION, this.request?.context?.accesstoken);
 
     this.setContextInfo({
       headers: axiosHeaders,

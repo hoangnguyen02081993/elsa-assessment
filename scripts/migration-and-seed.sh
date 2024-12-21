@@ -1,0 +1,2 @@
+./migration.sh
+./seed.sh

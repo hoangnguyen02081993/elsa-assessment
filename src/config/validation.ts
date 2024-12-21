@@ -42,7 +42,7 @@ export class EnvironmentAPIGatewayVariables {
     }
 
     const validatedConfig = plainToInstance(
-      EnvironmentAuthServiceVariables,
+      EnvironmentAPIGatewayVariables,
       config,
       {
         enableImplicitConversion: true,
@@ -98,6 +98,194 @@ export class EnvironmentAuthServiceVariables {
 
     const validatedConfig = plainToInstance(
       EnvironmentAuthServiceVariables,
+      config,
+      {
+        enableImplicitConversion: true,
+      },
+    );
+    const errors = validateSync(validatedConfig, {
+      skipMissingProperties: false,
+    });
+
+    if (errors.length > 0) {
+      const message = errors
+        .flatMap(({ constraints }) =>
+          Object.keys(constraints).flatMap((key) => constraints[key]),
+        )
+        .join('\n');
+      console.error(`ENV Missing:\n${message}`);
+      return {
+        error: message,
+      };
+    }
+    return { validatedConfig };
+  }
+}
+
+export class EnvironmentQuizAPIVariables {
+  @IsString()
+  TZ: string;
+
+  @IsEnum(Environment)
+  ENVIRONMENT: Environment;
+
+  @IsNumber()
+  @Min(0)
+  @Max(65535)
+  PORT: number;
+
+  @IsString()
+  POSTGRESQL_USER: string;
+
+  @IsString()
+  POSTGRESQL_PASSWORD: string;
+
+  @IsNumber()
+  @Min(0)
+  @Max(65535)
+  POSTGRESQL_PORT: number;
+
+  @IsString()
+  POSTGRESQL_HOST: string;
+
+  @IsString()
+  POSTGRESQL_DB: string;
+
+  @IsString()
+  REDIS_HOST: string;
+
+  @IsNumber()
+  @Min(0)
+  @Max(65535)
+  REDIS_PORT: number;
+
+  @IsString()
+  REDIS_MODE: string;
+
+  validate(config: Record<string, unknown>, options: Record<string, unknown>) {
+    if (options.appName !== (process.env.APP_NAME || 'QUIZ_API_SERVICE')) {
+      return {};
+    }
+
+    const validatedConfig = plainToInstance(
+      EnvironmentQuizAPIVariables,
+      config,
+      {
+        enableImplicitConversion: true,
+      },
+    );
+    const errors = validateSync(validatedConfig, {
+      skipMissingProperties: false,
+    });
+
+    if (errors.length > 0) {
+      const message = errors
+        .flatMap(({ constraints }) =>
+          Object.keys(constraints).flatMap((key) => constraints[key]),
+        )
+        .join('\n');
+      console.error(`ENV Missing:\n${message}`);
+      return {
+        error: message,
+      };
+    }
+    return { validatedConfig };
+  }
+}
+
+export class EnvironmentQuizConsumerVariables {
+  @IsString()
+  TZ: string;
+
+  @IsEnum(Environment)
+  ENVIRONMENT: Environment;
+
+  @IsNumber()
+  @Min(0)
+  @Max(65535)
+  PORT: number;
+
+  @IsString()
+  REDIS_HOST: string;
+
+  @IsNumber()
+  @Min(0)
+  @Max(65535)
+  REDIS_PORT: number;
+
+  @IsString()
+  REDIS_MODE: string;
+
+  @IsString()
+  SOCKET_MANAGER_SERVICE_URL: string;
+
+  validate(config: Record<string, unknown>, options: Record<string, unknown>) {
+    if (options.appName !== (process.env.APP_NAME || 'QUIZ_CONSUMER_SERVICE')) {
+      return {};
+    }
+
+    const validatedConfig = plainToInstance(
+      EnvironmentQuizConsumerVariables,
+      config,
+      {
+        enableImplicitConversion: true,
+      },
+    );
+    const errors = validateSync(validatedConfig, {
+      skipMissingProperties: false,
+    });
+
+    if (errors.length > 0) {
+      const message = errors
+        .flatMap(({ constraints }) =>
+          Object.keys(constraints).flatMap((key) => constraints[key]),
+        )
+        .join('\n');
+      console.error(`ENV Missing:\n${message}`);
+      return {
+        error: message,
+      };
+    }
+    return { validatedConfig };
+  }
+}
+
+export class EnvironmentSocketManagerVariables {
+  @IsString()
+  TZ: string;
+
+  @IsEnum(Environment)
+  ENVIRONMENT: Environment;
+
+  @IsNumber()
+  @Min(0)
+  @Max(65535)
+  PORT: number;
+
+  @IsString()
+  REDIS_HOST: string;
+
+  @IsNumber()
+  @Min(0)
+  @Max(65535)
+  REDIS_PORT: number;
+
+  @IsString()
+  REDIS_MODE: string;
+
+  @IsString()
+  @IsOptional()
+  JWT_ACCESS_TOKEN_PUBLIC_KEY: string;
+
+  validate(config: Record<string, unknown>, options: Record<string, unknown>) {
+    if (
+      options.appName !== (process.env.APP_NAME || 'SOCKET_MANAGER_SERVICE')
+    ) {
+      return {};
+    }
+
+    const validatedConfig = plainToInstance(
+      EnvironmentSocketManagerVariables,
       config,
       {
         enableImplicitConversion: true,

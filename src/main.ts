@@ -5,6 +5,7 @@ import { appProvider } from './applications/app.provider';
 import compression from 'compression';
 import utc from 'dayjs/plugin/utc';
 import dayjs from 'dayjs';
+import { RedisIoAdapter } from './modules/socket-manager/adapters/redis.adapter';
 
 dayjs.extend(utc);
 
@@ -32,13 +33,20 @@ async function bootstrap() {
   app.enableShutdownHooks();
 
   const configService = await app.resolve(ConfigService);
-  
+
+  // Register for the socket and related modules
+  if (appProvider.getAppName() === 'SOCKET_MANAGER_SERVICE') {
+    const redisIoAdapter = new RedisIoAdapter(app);
+    await redisIoAdapter.connectToRedis(configService);
+    app.useWebSocketAdapter(redisIoAdapter);
+  }
+
   const port = configService.get<number>('port') || 3000;
   await app.listen(port).then(() => {
     const bootstrapTime = Math.round(performance.now() - startBoootstrapTime);
     logger.info(`Application is running on: ${port}`);
     logger.info(
-      `Application started in ${bootstrapTime}ms`,
+      `Application started with port ${port} in ${bootstrapTime}ms`,
       {
         executionTime: bootstrapTime,
       },

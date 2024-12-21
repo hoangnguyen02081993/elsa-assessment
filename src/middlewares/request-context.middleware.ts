@@ -1,9 +1,6 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
-import {
-  AUTHORIZATION,
-  CID_HEADER_KEY,
-} from 'src/constants';
+import { AUTHORIZATION, CID_HEADER_KEY } from 'src/constants';
 import { RequestContext } from 'src/models';
 import { Logger } from 'src/modules/loggers';
 import asyncLocalStorage from 'src/storage/async_local';
@@ -40,7 +37,7 @@ export class RequestContextMiddleware implements NestMiddleware {
           userId: userInfo?.userId,
           username: userInfo?.username,
         };
-
+        request.context.accesstoken = accessToken;
       } catch (error) {
         this.logger.warn(
           'Error parsing user info',

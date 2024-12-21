@@ -53,7 +53,7 @@ export const stringifyAnObject: any = (str: Record<string, any>) => {
   try {
     return JSON.stringify(str);
   } catch (e) {
-    return 'stringify Unexpected Error';
+    return `stringify Unexpected Error: ${e}`;
   }
 };
 
