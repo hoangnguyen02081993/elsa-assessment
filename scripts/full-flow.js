@@ -3,8 +3,8 @@ const uuid = require('uuid');
 
 const config = {
     apiGatewayUrl: 'http://localhost:4001',
-    concurrentUsers: 1,
-    intevalTestTime: 10000,
+    concurrentUsers: 10,
+    intevalTestTime: 1000,
 }
 
 const randomLogin = async () => {

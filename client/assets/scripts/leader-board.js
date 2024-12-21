@@ -56,12 +56,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         redirectToLogin();
     }
 
-    const data = await fetchLeaderBoard(session);
-    renderLeaderBoard(data);
-
-    const socket = initWebSocketAndCommonEvent(session);
+    const socket = await initWebSocketAndCommonEvent(session);
     socket.on('updateLeaderBoard', (data) => {
         informDataChanged(data);
         renderLeaderBoard(data.data);
     });
+    const data = await fetchLeaderBoard(session);
+    renderLeaderBoard(data);
 })

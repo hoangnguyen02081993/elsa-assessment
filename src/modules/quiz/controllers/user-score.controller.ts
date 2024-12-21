@@ -21,13 +21,13 @@ export class UserScoreController {
   @HttpCode(HttpStatus.OK)
   async me(): Promise<UserScoreModel> {
     const userId = asyncLocalStorage.getStore().userInfo.userId;
-    return this.userScoreService.getByUserId(userId).then((userScore) => this.transformUserScoreModel(userScore));
+    return this.userScoreService.getByUserId(userId).then((userScore) => this.transformUserScoreModel(userScore, userId));
   }
 
-  private transformUserScoreModel(userScore: UserScores): UserScoreModel {
+  private transformUserScoreModel(userScore: UserScores, userId: string): UserScoreModel {
     return {
-      userId: userScore.userId,
-      score: userScore.score,
+      userId: userScore?.userId || userId,
+      score: userScore?.score || 0,
     };
   }
 }

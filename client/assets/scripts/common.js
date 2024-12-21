@@ -49,14 +49,16 @@ async function getMe(session) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${session.token}`
         }
-    });
+    })
 
     if (res.status < 300) {
         const resData = await res.json();
         return resData.data;
     }
 
-    return null;
+    return {
+        score: 0,
+    };
 }
 
 function renderScore(score) {
@@ -97,7 +99,12 @@ document.addEventListener('DOMContentLoaded', async function () {
             usernameContainer.textContent = session.user.profile.username;
         }
         
-        const me = await getMe(session);
+        const me = await getMe(session).catch(err => {
+            console.error(err);
+            return {
+                score: 0,
+            }
+        });
         renderScore(me.score);
     }
 })
