@@ -102,10 +102,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
     networks:
       - elsa-network
-    ports:
-      - "4005:3000"
     environment:
       - APP_NAME=SOCKET_MANAGER_SERVICE
       - ENVIRONMENT=local
@@ -119,6 +121,16 @@ services:
       - JWT_ACCESS_TOKEN_PUBLIC_KEY=nL+jiC3uyZt4aW9AnPaltg==
     depends_on:
       - cache
+  socket-manager-alb:
+    image: haproxy:latest
+    networks:
+      - elsa-network
+    ports:
+      - "4005:8080"
+    volumes:
+      - ./deployment-config/server-manager-alb:/usr/local/etc/haproxy/haproxy.cfg:ro
+    depends_on:
+      - socket-manager-service
   api-gateway:
     build:
       context: .
