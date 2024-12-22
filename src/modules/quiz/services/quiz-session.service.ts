@@ -11,16 +11,20 @@ import { PrismaService } from 'src/modules/prisma';
 import { UserQuizSessionRepository } from '../repositories/user-quiz-session.repository';
 import { UserScoreRepository } from '../repositories/user-score.repository';
 import { UpdateLeaderBoardProducer } from 'src/modules/queue/producer/update-leader-board-producer';
+import { InternalSocketManagerService } from 'src/modules/shared/services/socket-manager.service';
+import { Logger } from 'src/modules/loggers/logger.service';
 
 @Injectable()
 export class QuizSessionService {
+  private readonly logger = new Logger(QuizSessionService.name);
   constructor(
     private readonly quizService: QuizService,
     private readonly prismaService: PrismaService,
     private readonly userQuizSessionRepository: UserQuizSessionRepository,
     private readonly userScoreRepository: UserScoreRepository,
+    private readonly internalSocketManagerService: InternalSocketManagerService,
     private readonly updateLeaderBoardProducer: UpdateLeaderBoardProducer,
-  ) {}
+  ) { }
 
   public async submitQuizSession(
     data: SubmitQuizSessionRequest,
@@ -41,7 +45,7 @@ export class QuizSessionService {
       this.userQuizSessionRepository,
       this.userScoreRepository,
     ];
-    await this.prismaService.transaction(async () => {
+    const userScore = await this.prismaService.transaction(async () => {
       await this.userQuizSessionRepository
         .create({
           quizId: quiz.id,
@@ -72,7 +76,17 @@ export class QuizSessionService {
         score: userScore.score,
         cid,
       });
+
+      return userScore;
     }, repositories);
+
+    // Update self score for the user
+    this.internalSocketManagerService.triggerUpdateSelfScore({
+      userId: userId,
+      score: userScore.score,
+    }).catch((err) => {
+      this.logger.error('Error updating self score', err);
+    });
   }
 
   private calculateScore(

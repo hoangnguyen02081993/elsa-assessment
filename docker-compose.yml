@@ -71,6 +71,7 @@ services:
       - REDIS_PORT=6379
       - REDIS_MODE=client
       - AUTH_SERVICE_URL=http://auth-service:3000
+      - SOCKET_MANAGER_SERVICE_URL=http://socket-manager-service:3000
     depends_on:
       cache: 
         condition: service_started
